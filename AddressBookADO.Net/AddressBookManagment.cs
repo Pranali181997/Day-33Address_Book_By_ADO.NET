@@ -48,6 +48,7 @@ namespace AddressBookADO.Net
                 connection.Close();
             }
         }
+        //UC-3-Insert Data
         public bool InsertedData(AddressBookModel model)
         {
             SqlConnection connection = new SqlConnection(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=AddressBookService;Integrated Security=True");
@@ -66,8 +67,7 @@ namespace AddressBookADO.Net
                     cmd.Parameters.AddWithValue("@Address", model.Address);
                     cmd.Parameters.AddWithValue("@AddressBookName", model.AddressBookName);
                     cmd.Parameters.AddWithValue("@AddressBookType", model.AddressBookType);
-                    cmd.Parameters.AddWithValue("@EmailId", model.EmailId);
-                    
+                    cmd.Parameters.AddWithValue("@EmailId", model.EmailId);                 
                     
                     connection.Open();
                     var result = cmd.ExecuteNonQuery();
@@ -88,5 +88,86 @@ namespace AddressBookADO.Net
             }
             return false;
         }
+        //UC-4-Ability to edit existing contact person using their name
+        public bool UpdateContact(AddressBookModel model)
+        {
+            SqlConnection connection = new SqlConnection(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=AddressBookService;Integrated Security=True");
+            try
+            {
+                using (connection)  
+                {
+                    SqlCommand cmd = new SqlCommand("updateRecord", connection);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@FirstName", model.FirstName);
+                    cmd.Parameters.AddWithValue("@LastName", model.LastName);
+                    cmd.Parameters.AddWithValue("@PhoneNumber", model.PhoneNumber);
+                    cmd.Parameters.AddWithValue("@State", model.State);
+                    cmd.Parameters.AddWithValue("@City", model.City);
+                    cmd.Parameters.AddWithValue("@Zip", model.Zip);
+                    cmd.Parameters.AddWithValue("@Address", model.Address);
+                    cmd.Parameters.AddWithValue("@AddressBookName", model.AddressBookName);
+                    cmd.Parameters.AddWithValue("@AddressBookType", model.AddressBookType);
+                    cmd.Parameters.AddWithValue("@EmailId", model.EmailId);
+                    connection.Open();
+                    var result = cmd.ExecuteNonQuery();
+                    if (result != 0)
+                    {
+                        return true;
+                    }
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Exception occured" + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+            return false;
+        }
+        //UC-5-Delete contact By Person Name  
+        public bool deleteContact(AddressBookModel model)
+        {
+            SqlConnection connection = new SqlConnection(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=AddressBookService;Integrated Security=True");
+            try
+            {
+                using (connection)
+                {
+                    SqlCommand cmd = new SqlCommand("SP_DELETERECORD", connection);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@FirstName", model.FirstName);
+                    cmd.Parameters.AddWithValue("@LastName", model.LastName);
+                    cmd.Parameters.AddWithValue("@PhoneNumber", model.PhoneNumber);
+                    cmd.Parameters.AddWithValue("@State", model.State);
+                    cmd.Parameters.AddWithValue("@City", model.City);
+                    cmd.Parameters.AddWithValue("@Zip", model.Zip);
+                    cmd.Parameters.AddWithValue("@Address", model.Address);
+                    cmd.Parameters.AddWithValue("@AddressBookName", model.AddressBookName);
+                    cmd.Parameters.AddWithValue("@AddressBookType", model.AddressBookType);
+                    cmd.Parameters.AddWithValue("@EmailId", model.EmailId);
+
+
+                    connection.Open();
+                    var result = cmd.ExecuteNonQuery();
+                    if (result != 0)
+                    {
+                        return true;
+                    }
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Exception occured" + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+            return false;
+        }
+
     }
 }
