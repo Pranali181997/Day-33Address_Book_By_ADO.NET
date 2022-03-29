@@ -7,31 +7,25 @@ namespace AddressBookADO.Net
 {
     public class AddressBookManagment
     {
-        /* UC1:- Address Book ServiceDB
-                      - Use SQL Client to create DB and DB Records.
-             */
-        public static string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Address_Book_Service;Integrated Security=True";
-
-        SqlConnection connection = new SqlConnection(connectionString);
-
-        public void DataBaseConnection()
+        public static void CreateDataBase()
         {
+            SqlConnection connection = new SqlConnection(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=master;Integrated Security=True");
+
             try
             {
-                DateTime now = DateTime.Now;
                 connection.Open();
-                using (connection)
-                {
-                    Console.WriteLine($"Connection is created Successful {now}");
-
-                }
+                SqlCommand cmd = new SqlCommand("Create DataBase AddressBookService", connection);
+                cmd.ExecuteNonQuery();
+                Console.WriteLine("Address Book Created Successfully");               
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("Exception occured by Connection Database while creating DB");
+            }
+            finally
+            {
                 connection.Close();
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-
         }
     }
 }
