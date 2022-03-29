@@ -19,6 +19,7 @@ namespace AddressBookADO.Net
         public string AddressBookName { get; set; }
         public string AddressBookType { get; set; }
         public string EmailId { get; set; }
+        public int EmpId { get; set; }
         
     }
 }

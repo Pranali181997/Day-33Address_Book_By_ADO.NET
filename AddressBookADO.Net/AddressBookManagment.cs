@@ -27,5 +27,26 @@ namespace AddressBookADO.Net
                 connection.Close();
             }
         }
+        public static void CreateTable()
+        {
+            SqlConnection connection = new SqlConnection(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=AddressBookService;Integrated Security=True");
+            
+            try
+            {
+                connection.Open();
+                SqlCommand cmd = new SqlCommand("create table AddressBookTable(EmpId int Identity(1,1)Primary key,FirstName varchar (50),LastName varchar(50),Address varchar(50),City varchar(50),State varchar(50),Zip varchar(50),PhoneNumber BIGINT,AddressBookName varchar(50),AddressBookType varchar(50),EmailId varchar(50))", connection);
+                cmd.ExecuteNonQuery();
+                Console.WriteLine("Address Book Table Created Successfully");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Exception occured by Connection Database while creating DB");
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+
     }
 }
